@@ -1,4 +1,4 @@
-package urlchecker
+package streamchecker
 
 import (
 	"net/http"

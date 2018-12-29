@@ -1,4 +1,4 @@
-package urlchecker
+package streamchecker
 
 import (
 	resty "gopkg.in/resty.v1"
@@ -8,6 +8,7 @@ import (
 func CheckValidStream(url string) bool {
 	resty.SetRedirectPolicy(resty.FlexibleRedirectPolicy(30)) // because radionomy
 	r := resty.R()
+	r.Header.Set("User-Agent", "VLC/3.0.4 LibVLC/3.0.4")
 	resp, err := r.Head(url)
 	if err != nil {
 		return false
