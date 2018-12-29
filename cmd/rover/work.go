@@ -1,20 +1,113 @@
 package main
 
 import (
-	"fmt"
+	"context"
+	"encoding/json"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
 
+	"github.com/innovate-technologies/yp-rover/internal/tasks"
+	"github.com/innovate-technologies/yp-rover/internal/tasks/shoutcast"
 	"github.com/spf13/cobra"
+	"github.com/streadway/amqp"
 )
 
 // workCmd represents the work command
 var workCmd = &cobra.Command{
 	Use:   "work",
 	Short: "This starts a worker server instance",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("work called")
-	},
+	RunE:  runWork,
 }
 
 func init() {
 	RootCmd.AddCommand(workCmd)
+}
+
+func runWork(cmd *cobra.Command, args []string) error {
+	ch, q, err := getQueue()
+	if err != nil {
+		return err
+	}
+
+	// set QOS to only give workers 1 task at a time
+	err = ch.Qos(
+		1,     // prefetch count
+		0,     // prefetch size
+		false, // global
+	)
+	if err != nil {
+		return err
+	}
+
+	msgs, err := ch.Consume(
+		q.Name, // queue
+		"",     // consumer
+		false,  // auto-ack
+		false,  // exclusive
+		false,  // no-local
+		false,  // no-wait
+		nil,    // args
+	)
+	if err != nil {
+		return err
+	}
+
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, os.Interrupt, syscall.SIGTERM)
+	ctx, cancel := context.WithCancel(context.Background())
+
+	go func() {
+	L:
+		for {
+			select {
+			case <-ctx.Done():
+				break L
+			case d := <-msgs:
+				if d.ContentType != "application/json" { // no idea who sent that
+					continue
+				}
+				task := tasks.Task{}
+				json.Unmarshal(d.Body, &task)
+
+				handleTask(ch, q, task)
+				d.Ack(false)
+				break
+			}
+		}
+	}()
+
+	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	<-signals
+	cancel()
+	log.Printf("Got shutdown signal, finishing the work and exiting")
+
+	return nil
+}
+
+func handleTask(ch *amqp.Channel, q *amqp.Queue, task tasks.Task) {
+	var followUpTasks []tasks.Task
+	var err error
+	switch task.Unit {
+	case "shoutcastcom":
+		handler := shoutcast.New(os.Getenv("SHOUTCAST_KEY")) // TODO: replace me with a proper config system
+		followUpTasks, err = handler.HandleTask(task)
+		break
+	}
+
+	if err != nil {
+		log.Println(err)
+		queueTask(ch, q, task) // retry me
+		return
+	}
+	if followUpTasks == nil {
+		return
+	}
+	for _, newtask := range followUpTasks {
+		err = queueTask(ch, q, newtask)
+		if err != nil {
+			log.Println(err)
+		}
+	}
 }
