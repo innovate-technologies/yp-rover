@@ -2,6 +2,7 @@ package shoutcast
 
 import (
 	"errors"
+	"strconv"
 
 	"github.com/innovate-technologies/yp-rover/internal/tasks"
 )
@@ -23,6 +24,9 @@ func (t *Task) HandleTask(task tasks.Task) ([]tasks.Task, error) {
 	switch task.Function {
 	case "UpdateGenres":
 		return t.UpdateGenres()
+	case "UpdateStations":
+		offset, _ := strconv.ParseInt(task.Args["offset"], 10, 64)
+		return t.FetchForGenre(task.Args["genre"], offset)
 	}
 	return nil, errors.New("Task not found")
 }
