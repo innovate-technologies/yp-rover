@@ -51,6 +51,14 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:525ac3364813b4688df380594e562133e07830dfce0722effda64b37634c13d0"
+  name = "github.com/streadway/amqp"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a314942b2fd9dde7a3f70ba3f1062848ce6eb392"
+
+[[projects]]
+  branch = "master"
   digest = "1:b6a3256ffb6ee9d7e7159c062f57e091c30c19e13ac3c676729baac7d83ecd21"
   name = "golang.org/x/net"
   packages = [
@@ -99,6 +107,7 @@
     "github.com/davecgh/go-spew/spew",
     "github.com/jarcoal/httpmock",
     "github.com/spf13/cobra",
+    "github.com/streadway/amqp",
     "gopkg.in/resty.v1",
   ]
   solver-name = "gps-cdcl"
