@@ -53,7 +53,7 @@ func TestAPI_BrowseStations(t *testing.T) {
 
 	type args struct {
 		guide  string
-		offset int
+		offset int64
 	}
 	tests := []struct {
 		name       string

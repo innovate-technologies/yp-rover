@@ -81,7 +81,7 @@ func (a *API) GetGenreGuides() (map[string]string, error) {
 }
 
 // BrowseStations will give back radio stations in a given guide
-func (a *API) BrowseStations(guide string, offset int) ([]Station, int64, error) {
+func (a *API) BrowseStations(guide string, offset int64) ([]Station, int64, error) {
 	resp, err := a.doRequest("Browse.ashx", map[string]string{
 		"id":     guide,
 		"offset": fmt.Sprintf("%d", offset),
