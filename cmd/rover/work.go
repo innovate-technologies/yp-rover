@@ -7,9 +7,11 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/innovate-technologies/yp-rover/internal/tasks"
 	"github.com/innovate-technologies/yp-rover/internal/tasks/shoutcast"
+	tunein "github.com/innovate-technologies/yp-rover/internal/tasks/tunein"
 	"github.com/spf13/cobra"
 	"github.com/streadway/amqp"
 )
@@ -94,10 +96,15 @@ func handleTask(ch *amqp.Channel, q *amqp.Queue, task tasks.Task) {
 		handler := shoutcast.New(os.Getenv("SHOUTCAST_KEY")) // TODO: replace me with a proper config system
 		followUpTasks, err = handler.HandleTask(task)
 		break
+	case "tunein":
+		handler := tunein.New()
+		followUpTasks, err = handler.HandleTask(task)
+		break
 	}
 
 	if err != nil {
 		log.Println(err)
+		time.Sleep(time.Second)
 		queueTask(ch, q, task) // retry me
 		return
 	}
