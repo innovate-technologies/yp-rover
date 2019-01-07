@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/innovate-technologies/yp-rover/pkg/store"
 	"github.com/spf13/cobra"
 )
@@ -21,7 +23,12 @@ func runMigrate(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	db.Migrate()
+	n, err := db.Migrate()
 
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	log.Printf("%d actions performed", n)
 	return nil
 }
