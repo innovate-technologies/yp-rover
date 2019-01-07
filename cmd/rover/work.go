@@ -65,16 +65,20 @@ func runWork(cmd *cobra.Command, args []string) error {
 		for {
 			select {
 			case <-ctx.Done():
+				log.Println("Got context break")
 				break L
 			case d := <-msgs:
+				log.Println("Got message")
 				if d.ContentType != "application/json" { // no idea who sent that
 					continue
 				}
 				task := tasks.Task{}
 				json.Unmarshal(d.Body, &task)
+				log.Printf("Got task %s.%s\n", task.Unit, task.Function)
 
 				handleTask(ch, q, task)
 				d.Ack(false)
+				log.Printf("End task %s.%s\n", task.Unit, task.Function)
 				break
 			}
 		}
@@ -105,6 +109,7 @@ func handleTask(ch *amqp.Channel, q *amqp.Queue, task tasks.Task) {
 	if err != nil {
 		log.Println(err)
 		time.Sleep(time.Second)
+		log.Printf("Got error, requeueing")
 		queueTask(ch, q, task) // retry me
 		return
 	}
