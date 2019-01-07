@@ -28,14 +28,14 @@ spec:
               value: "amqp://guest:guest@rabbitmq-rabbitmq-ha:5672/"
             - name: YPROVER_SHOUTCAST_KEY
               valueFrom:
-              secretKeyRef:
-                name: yp-rover
-                key: YPROVER_SHOUTCAST_KEY
+                secretKeyRef:
+                  name: yp-rover
+                  key: YPROVER_SHOUTCAST_KEY
             - name: YPROVER_MYSQL_URL
               valueFrom:
-              secretKeyRef:
-                name: yp-rover
-                key: YPROVER_MYSQL_URL
+                secretKeyRef:
+                  name: yp-rover
+                  key: YPROVER_MYSQL_URL
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
