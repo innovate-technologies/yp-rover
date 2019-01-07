@@ -17,7 +17,7 @@ jobs:
     name: Go Tests
     language: go
     script:
-      - go build ./
+      - go build ./cmd/yp-rover
       - go vet ./...
       - go test -v ./...
   - stage: release
