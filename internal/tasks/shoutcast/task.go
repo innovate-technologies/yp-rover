@@ -4,18 +4,19 @@ import (
 	"errors"
 	"strconv"
 
+	"github.com/innovate-technologies/yp-rover/internal/config"
 	"github.com/innovate-technologies/yp-rover/internal/tasks"
 )
 
 // Task is the task handler for SHOUTcast.com
 type Task struct {
-	key string
+	config config.Config
 }
 
 // New gives a new task hander
-func New(key string) Task {
+func New(config config.Config) Task {
 	return Task{
-		key: key,
+		config: config,
 	}
 }
 

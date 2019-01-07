@@ -11,7 +11,7 @@ import (
 
 // FetchForGenre fetches 50 stations for a genre and dispatches a new job if needed
 func (t *Task) FetchForGenre(genre string, offset int64) ([]tasks.Task, error) {
-	api := shoutcastcom.NewClient(t.key)
+	api := shoutcastcom.NewClient(t.config.ShoutcastKey)
 	stations, err := api.GetByGenre(genre, "", "", fmt.Sprintf("%d,50", offset))
 	if err != nil {
 		return nil, err

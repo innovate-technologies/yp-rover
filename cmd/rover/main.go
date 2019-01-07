@@ -5,15 +5,11 @@ import (
 	"log"
 	"os"
 
+	configpkg "github.com/innovate-technologies/yp-rover/internal/config"
 	"github.com/kelseyhightower/envconfig"
 )
 
-type roverConfig struct {
-	ShoutcastKey string `required:"true"`
-	RabbitMQURL  string `required:"true" envconfig:"rabbitmq_url"`
-}
-
-var config roverConfig
+var config configpkg.Config
 
 func main() {
 	err := envconfig.Process("yprover", &config)
