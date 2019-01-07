@@ -9,7 +9,7 @@ import (
 var migrateCmd = &cobra.Command{
 	Use:   "migrate",
 	Short: "This starts a database table migration",
-	RunE:  runControl,
+	RunE:  runMigrate,
 }
 
 func init() {
