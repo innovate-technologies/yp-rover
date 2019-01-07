@@ -20,6 +20,7 @@ type Station struct {
 	LogoURL      string `xml:"logo,attr"`
 	CurrentTrack string `xml:"ct,attr"`
 	ListnerCount int    `xml:"lc,attr"`
+	ListenURLs   []string
 }
 
 type stationlist struct {

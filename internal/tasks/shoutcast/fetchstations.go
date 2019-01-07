@@ -29,7 +29,11 @@ func (t *Task) FetchForGenre(genre string, offset int64) ([]tasks.Task, error) {
 				valid = append(valid, url)
 			}
 		}
+		station.ListenURLs = valid
 		time.Sleep(200 * time.Millisecond) // try not to fetch too fast
+		if len(valid) > 0 {
+
+		}
 		// TODO: add me to a database
 	}
 
