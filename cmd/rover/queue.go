@@ -8,7 +8,7 @@ import (
 )
 
 func getQueue() (*amqp.Channel, *amqp.Queue, error) {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/") // TODO: replace me with a proper config system
+	conn, err := amqp.Dial(config.RabbitMQURL)
 	if err != nil {
 		return nil, nil, err
 	}

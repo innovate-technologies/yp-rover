@@ -93,7 +93,7 @@ func handleTask(ch *amqp.Channel, q *amqp.Queue, task tasks.Task) {
 	var err error
 	switch task.Unit {
 	case "shoutcastcom":
-		handler := shoutcast.New(os.Getenv("SHOUTCAST_KEY")) // TODO: replace me with a proper config system
+		handler := shoutcast.New(config.ShoutcastKey) // TODO: replace me with a proper config system
 		followUpTasks, err = handler.HandleTask(task)
 		break
 	case "tunein":
