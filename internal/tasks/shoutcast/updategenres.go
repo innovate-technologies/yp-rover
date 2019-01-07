@@ -10,6 +10,7 @@ import (
 
 // UpdateGenres fetches and updates the genre list in the database
 func (t *Task) UpdateGenres() ([]tasks.Task, error) {
+	log.Println("Updating SHOUTcast genres")
 	api := shoutcastcom.NewClient(t.config.ShoutcastKey)
 	genres, err := api.GetAllGenres()
 	if err != nil {
@@ -23,10 +24,13 @@ func (t *Task) UpdateGenres() ([]tasks.Task, error) {
 
 	nt := []tasks.Task{}
 	for _, genre := range genres {
+		log.Printf("Adding SHOUTcast genre %s\n", genre)
 		err = db.AddSHOUTcastGenre(genre)
 		if err != nil {
 			log.Println(err)
 		}
+
+		log.Printf("Queue SHOUTcast station fetch for %s\n", genre)
 		nt = append(nt, tasks.Task{
 			Unit:     "shoutcastcom",
 			Function: "UpdateStations",
