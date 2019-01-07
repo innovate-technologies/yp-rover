@@ -30,7 +30,7 @@ func (s *Store) Migrate() (int, error) {
 		Migrations: []*migrate.Migration{
 			&migrate.Migration{
 				Id:   "1",
-				Up:   []string{"CREATE TABLE `rover_sc_genres` (`id` INT NOT NULL AUTO_INCREMENT, `name` NOT NULL, UNIQUE KEY `id` (`id`) USING BTREE) ENGINE=InnoDB;)"},
+				Up:   []string{"CREATE TABLE `rover_sc_genres` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB"},
 				Down: []string{"DROP TABLE `rover_sc_genres`"},
 			},
 		},
