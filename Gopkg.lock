@@ -18,6 +18,14 @@
   version = "v1.1.1"
 
 [[projects]]
+  digest = "1:ec6f9bf5e274c833c911923c9193867f3f18788c461f76f05f62bb1510e0ae65"
+  name = "github.com/go-sql-driver/mysql"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "72cd26f257d44c1114970e19afddcd812016007e"
+  version = "v1.4.1"
+
+[[projects]]
   digest = "1:870d441fe217b8e689d7949fef6e43efbc787e50f200cb1e70dbca9204a1d6be"
   name = "github.com/inconshreveable/mousetrap"
   packages = ["."]
@@ -40,6 +48,17 @@
   pruneopts = "UT"
   revision = "f611eb38b3875cc3bd991ca91c51d06446afa14c"
   version = "v1.3.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:adddeca6a627f69b0c34971dfc13292f334352d43ba0b9b121434ff92a2d04c1"
+  name = "github.com/rubenv/sql-migrate"
+  packages = [
+    ".",
+    "sqlparse",
+  ]
+  pruneopts = "UT"
+  revision = "5a8808c14925f69d2228981db113f672ad047e69"
 
 [[projects]]
   digest = "1:645cabccbb4fa8aab25a956cbcbdf6a6845ca736b2c64e197ca7cbb9d210b939"
@@ -100,6 +119,22 @@
   version = "v0.3.0"
 
 [[projects]]
+  digest = "1:c25289f43ac4a68d88b02245742347c94f1e108c534dda442188015ff80669b3"
+  name = "google.golang.org/appengine"
+  packages = ["cloudsql"]
+  pruneopts = "UT"
+  revision = "e9657d882bb81064595ca3b56cbe2546bbabf7b1"
+  version = "v1.4.0"
+
+[[projects]]
+  digest = "1:1b36b0cb56126316f637ad55cfd5ed84c945fe45bd90e944666b4107a80a1da9"
+  name = "gopkg.in/gorp.v1"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6a667da9c028871f98598d85413e3fc4c6daa52e"
+  version = "v1.7.2"
+
+[[projects]]
   digest = "1:6921c024df19499cfcdaf33e0df635da67b959a4541b8b68d00d159791b70d07"
   name = "gopkg.in/resty.v1"
   packages = ["."]
@@ -113,8 +148,10 @@
   input-imports = [
     "github.com/asaskevich/govalidator",
     "github.com/davecgh/go-spew/spew",
+    "github.com/go-sql-driver/mysql",
     "github.com/jarcoal/httpmock",
     "github.com/kelseyhightower/envconfig",
+    "github.com/rubenv/sql-migrate",
     "github.com/spf13/cobra",
     "github.com/streadway/amqp",
     "gopkg.in/resty.v1",
