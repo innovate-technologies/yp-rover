@@ -1,0 +1,48 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "yp-rover.fullname" . }}-worker
+  labels:
+    app: {{ template "yp-rover.name" . }}}-worker
+    chart: {{ template "yp-rover.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.worker.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "yp-rover.name" . }}}-worker
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "yp-rover.name" . }}}-worker
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          args: ["work"]
+          env:
+            - name: YPROVER_RABBITMQ_URL
+              value: "amqp://guest:guest@rabbitmq-rabbitmq-ha:5672/"
+            - name: YPROVER_SHOUTCAST_KEY
+              valueFrom:
+              secretKeyRef:
+                name: yp-rover
+                key: YPROVER_SHOUTCAST_KEY
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
