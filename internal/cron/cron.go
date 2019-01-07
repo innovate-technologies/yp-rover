@@ -15,10 +15,10 @@ func UpdateGenres() chan tasks.Task {
 	}
 
 	timer := time.Tick(24 * time.Hour)
-	go sendTaskOnTick(task, timer, out)
+	//go sendTaskOnTick(task, timer, out)
 
 	go func() {
-		out <- task
+		//out <- task
 	}()
 	return out
 }
