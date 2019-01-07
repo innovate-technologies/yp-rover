@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ template "yp-rover.fullname" . }}-controller
   labels:
-    app: {{ template "yp-rover.name" . }}}-controller
+    app: {{ template "yp-rover.name" . }}-controller
     chart: {{ template "yp-rover.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -11,12 +11,12 @@ spec:
   replicas: {{ .Values.controller.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "yp-rover.name" . }}}-controller
+      app: {{ template "yp-rover.name" . }}-controller
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "yp-rover.name" . }}}-controller
+        app: {{ template "yp-rover.name" . }}-controller
         release: {{ .Release.Name }}
     spec:
       containers:

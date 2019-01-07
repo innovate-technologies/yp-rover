@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ template "yp-rover.fullname" . }}-worker
   labels:
-    app: {{ template "yp-rover.name" . }}}-worker
+    app: {{ template "yp-rover.name" . }}-worker
     chart: {{ template "yp-rover.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -11,12 +11,12 @@ spec:
   replicas: {{ .Values.worker.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "yp-rover.name" . }}}-worker
+      app: {{ template "yp-rover.name" . }}-worker
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "yp-rover.name" . }}}-worker
+        app: {{ template "yp-rover.name" . }}-worker
         release: {{ .Release.Name }}
     spec:
       containers:
