@@ -9,12 +9,12 @@ import (
 // UpdateGenres gives a task back to update the genre list every 24 hours
 func UpdateGenres() chan tasks.Task {
 	out := make(chan tasks.Task)
-	task := tasks.Task{
+	/*task := tasks.Task{
 		Unit:     "shoutcastcom",
 		Function: "UpdateGenres",
-	}
+	}*/
 
-	timer := time.Tick(24 * time.Hour)
+	//timer := time.Tick(24 * time.Hour)
 	//go sendTaskOnTick(task, timer, out)
 
 	go func() {
