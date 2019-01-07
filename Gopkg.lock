@@ -34,6 +34,14 @@
   revision = "53def6cd0f87425f5425d4f0f27f66f048759b94"
 
 [[projects]]
+  digest = "1:edbef42561faa44c19129b68d1e109fbc1647f63239250391eadc8d0e7c9f669"
+  name = "github.com/kelseyhightower/envconfig"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f611eb38b3875cc3bd991ca91c51d06446afa14c"
+  version = "v1.3.0"
+
+[[projects]]
   digest = "1:645cabccbb4fa8aab25a956cbcbdf6a6845ca736b2c64e197ca7cbb9d210b939"
   name = "github.com/spf13/cobra"
   packages = ["."]
@@ -106,6 +114,7 @@
     "github.com/asaskevich/govalidator",
     "github.com/davecgh/go-spew/spew",
     "github.com/jarcoal/httpmock",
+    "github.com/kelseyhightower/envconfig",
     "github.com/spf13/cobra",
     "github.com/streadway/amqp",
     "gopkg.in/resty.v1",
