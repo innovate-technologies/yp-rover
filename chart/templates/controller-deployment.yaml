@@ -19,6 +19,24 @@ spec:
         app: {{ template "yp-rover.name" . }}-controller
         release: {{ .Release.Name }}
     spec:
+      initContainers:
+        - name: migrate
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          args: ["migrate"]
+          env:
+            - name: YPROVER_RABBITMQ_URL
+              value: "amqp://guest:guest@rabbitmq-rabbitmq-ha:5672/"
+            - name: YPROVER_SHOUTCAST_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: yp-rover
+                  key: YPROVER_SHOUTCAST_KEY
+            - name: YPROVER_MYSQL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: yp-rover
+                  key: YPROVER_MYSQL_URL
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
