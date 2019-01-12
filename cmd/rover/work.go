@@ -70,6 +70,7 @@ func runWork(cmd *cobra.Command, args []string) error {
 			case d := <-msgs:
 				log.Println("Got message")
 				if d.ContentType != "application/json" { // no idea who sent that
+					d.Ack(false)
 					continue
 				}
 				task := tasks.Task{}
