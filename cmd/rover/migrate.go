@@ -1,8 +1,6 @@
 package main
 
 import (
-	"log"
-
 	"github.com/innovate-technologies/yp-rover/pkg/store"
 	"github.com/spf13/cobra"
 )
@@ -19,16 +17,11 @@ func init() {
 }
 
 func runMigrate(cmd *cobra.Command, args []string) error {
-	db, err := store.New(config.MySQLURL)
+	db, err := store.New(config)
 	if err != nil {
 		return err
 	}
-	n, err := db.Migrate()
+	db.Migrate()
 
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	log.Printf("%d actions performed", n)
 	return nil
 }
