@@ -17,7 +17,7 @@ func (t *Task) UpdateGenres() ([]tasks.Task, error) {
 		return nil, err
 	}
 
-	db, err := store.New(t.config.MySQLURL)
+	db, err := store.New(t.config)
 	if err != nil {
 		return nil, err
 	}
