@@ -18,12 +18,20 @@
   version = "v1.1.1"
 
 [[projects]]
-  digest = "1:ec6f9bf5e274c833c911923c9193867f3f18788c461f76f05f62bb1510e0ae65"
-  name = "github.com/go-sql-driver/mysql"
+  digest = "1:586ea76dbd0374d6fb649a91d70d652b7fe0ccffb8910a77468e7702e7901f3d"
+  name = "github.com/go-stack/stack"
   packages = ["."]
   pruneopts = "UT"
-  revision = "72cd26f257d44c1114970e19afddcd812016007e"
-  version = "v1.4.1"
+  revision = "2fee6af1a9795aafbe0253a0cfbdf668e1fb8a9a"
+  version = "v1.8.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:4a0c6bb4805508a6287675fac876be2ac1182539ca8a32468d8128882e9d5009"
+  name = "github.com/golang/snappy"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "2e65f85255dbc3072edf28d6b5b8efc472979f5a"
 
 [[projects]]
   digest = "1:870d441fe217b8e689d7949fef6e43efbc787e50f200cb1e70dbca9204a1d6be"
@@ -50,15 +58,51 @@
   version = "v1.3.0"
 
 [[projects]]
-  branch = "master"
-  digest = "1:adddeca6a627f69b0c34971dfc13292f334352d43ba0b9b121434ff92a2d04c1"
-  name = "github.com/rubenv/sql-migrate"
+  digest = "1:27fa1b385644151ee1fc0c8b04f1f86963d9701335491b94488fd3912e370354"
+  name = "github.com/mongodb/mongo-go-driver"
   packages = [
-    ".",
-    "sqlparse",
+    "bson",
+    "bson/bsoncodec",
+    "bson/bsonrw",
+    "bson/bsontype",
+    "bson/primitive",
+    "event",
+    "internal",
+    "mongo",
+    "mongo/options",
+    "mongo/readconcern",
+    "mongo/readpref",
+    "mongo/writeconcern",
+    "tag",
+    "version",
+    "x/bsonx",
+    "x/bsonx/bsoncore",
+    "x/mongo/driver",
+    "x/mongo/driver/auth",
+    "x/mongo/driver/auth/internal/gssapi",
+    "x/mongo/driver/session",
+    "x/mongo/driver/topology",
+    "x/mongo/driver/uuid",
+    "x/network/address",
+    "x/network/command",
+    "x/network/compressor",
+    "x/network/connection",
+    "x/network/connstring",
+    "x/network/description",
+    "x/network/result",
+    "x/network/wiremessage",
   ]
   pruneopts = "UT"
-  revision = "5a8808c14925f69d2228981db113f672ad047e69"
+  revision = "3cfdc9ffcf780eede57d27ec26a3edad4c9ab6a9"
+  version = "v0.2.0"
+
+[[projects]]
+  digest = "1:cf31692c14422fa27c83a05292eb5cbe0fb2775972e8f1f8446a71549bd8980b"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
+  version = "v0.8.1"
 
 [[projects]]
   digest = "1:645cabccbb4fa8aab25a956cbcbdf6a6845ca736b2c64e197ca7cbb9d210b939"
@@ -86,6 +130,30 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:40fdfd6ab85ca32b6935853bbba35935dcb1d796c8135efd85947566c76e662e"
+  name = "github.com/xdg/scram"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "7eeb5667e42c09cb51bf7b7c28aea8c56767da90"
+
+[[projects]]
+  branch = "master"
+  digest = "1:f5c1d04bc09c644c592b45b9f0bad4030521b1a7d11c7dadbb272d9439fa6e8e"
+  name = "github.com/xdg/stringprep"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "73f8eece6fdcd902c185bf651de50f3828bed5ed"
+
+[[projects]]
+  branch = "master"
+  digest = "1:f92f6956e4059f6a3efc14924d2dd58ba90da25cc57fe07ae3779ef2f5e0c5f2"
+  name = "golang.org/x/crypto"
+  packages = ["pbkdf2"]
+  pruneopts = "UT"
+  revision = "ff983b9c42bc9fbf91556e191cc8efb585c16908"
+
+[[projects]]
+  branch = "master"
   digest = "1:b6a3256ffb6ee9d7e7159c062f57e091c30c19e13ac3c676729baac7d83ecd21"
   name = "golang.org/x/net"
   packages = [
@@ -94,6 +162,14 @@
   ]
   pruneopts = "UT"
   revision = "927f97764cc334a6575f4b7a1584a147864d5723"
+
+[[projects]]
+  branch = "master"
+  digest = "1:75515eedc0dc2cb0b40372008b616fa2841d831c63eedd403285ff286c593295"
+  name = "golang.org/x/sync"
+  packages = ["semaphore"]
+  pruneopts = "UT"
+  revision = "37e7f081c4d4c64e13b10787722085407fe5d15f"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
@@ -119,22 +195,6 @@
   version = "v0.3.0"
 
 [[projects]]
-  digest = "1:c25289f43ac4a68d88b02245742347c94f1e108c534dda442188015ff80669b3"
-  name = "google.golang.org/appengine"
-  packages = ["cloudsql"]
-  pruneopts = "UT"
-  revision = "e9657d882bb81064595ca3b56cbe2546bbabf7b1"
-  version = "v1.4.0"
-
-[[projects]]
-  digest = "1:1b36b0cb56126316f637ad55cfd5ed84c945fe45bd90e944666b4107a80a1da9"
-  name = "gopkg.in/gorp.v1"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "6a667da9c028871f98598d85413e3fc4c6daa52e"
-  version = "v1.7.2"
-
-[[projects]]
   digest = "1:6921c024df19499cfcdaf33e0df635da67b959a4541b8b68d00d159791b70d07"
   name = "gopkg.in/resty.v1"
   packages = ["."]
@@ -148,10 +208,13 @@
   input-imports = [
     "github.com/asaskevich/govalidator",
     "github.com/davecgh/go-spew/spew",
-    "github.com/go-sql-driver/mysql",
     "github.com/jarcoal/httpmock",
     "github.com/kelseyhightower/envconfig",
-    "github.com/rubenv/sql-migrate",
+    "github.com/mongodb/mongo-go-driver/bson",
+    "github.com/mongodb/mongo-go-driver/mongo",
+    "github.com/mongodb/mongo-go-driver/mongo/options",
+    "github.com/mongodb/mongo-go-driver/x/bsonx",
+    "github.com/pkg/errors",
     "github.com/spf13/cobra",
     "github.com/streadway/amqp",
     "gopkg.in/resty.v1",
