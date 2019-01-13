@@ -41,6 +41,11 @@ spec:
                 secretKeyRef:
                   name: yp-rover
                   key: YPROVER_MONGODB_DATABASE
+            - name: YPROVER_TUNEIN_PARTNERID
+              valueFrom:
+                secretKeyRef:
+                  name: yp-rover
+                  key: YPROVER_TUNEIN_PARTNERID
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
