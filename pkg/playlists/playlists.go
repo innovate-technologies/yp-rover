@@ -9,7 +9,7 @@ import (
 	resty "gopkg.in/resty.v1"
 )
 
-var plsFile = regexp.MustCompile(`File.*=(.*)$`)
+var plsFile = regexp.MustCompile(`File[0-9]=(.*)$`)
 
 func GetEntryURLs(url string) ([]string, error) {
 	resty.SetRedirectPolicy(resty.FlexibleRedirectPolicy(30)) // because radionomy
@@ -48,9 +48,9 @@ func GetEntryURLs(url string) ([]string, error) {
 			if len(matched[0]) < 2 {
 				continue // no correct submatch
 			}
-
-			if govalidator.IsURL(matched[0][1]) {
-				out = append(out, matched[0][1])
+			cleanurl := strings.Replace(matched[0][1], "\r", "", -1)
+			if govalidator.IsURL(cleanurl) {
+				out = append(out, cleanurl)
 			}
 		}
 
