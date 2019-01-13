@@ -17,11 +17,23 @@ const waitTime = 4 * time.Minute
 // API is an API wrapper for opml.radiotime.com
 // opml.radiotime.com is a deprecated endpoint, we do not guarantee this will stay up
 type API struct {
+	partnerID string
+}
+
+func WithPartnerID(id string) func(*API) {
+	return func(a *API) {
+		a.partnerID = id
+	}
 }
 
 // NewClient gives a new API instance
-func NewClient() *API {
-	return &API{}
+func NewClient(options ...func(*API)) *API {
+	api := API{}
+	for _, option := range options {
+		option(&api)
+	}
+
+	return &api
 }
 
 func (a *API) doRequest(endpoint string, params ...map[string]string) (*resty.Response, error) {
@@ -40,6 +52,9 @@ func (a *API) doRequest(endpoint string, params ...map[string]string) (*resty.Re
 
 	for _, paramSet := range params {
 		r = r.SetQueryParams(paramSet)
+	}
+	if a.partnerID != "" {
+		r = r.SetQueryParam("partnerId", a.partnerID)
 	}
 
 	resp, err := r.Get(fmt.Sprintf("https://opml.radiotime.com/%s", endpoint))
@@ -118,7 +133,7 @@ func (a *API) BrowseStations(guide string, offset int64) ([]Station, int64, erro
 			}
 			continue
 		}
-		time.Sleep(2 * time.Second) // preventing a rate limit here
+		time.Sleep(300 * time.Millisecond) // preventing a rate limit here
 		tuneResp, err := a.doRequest(entry.URL)
 		if err != nil {
 			continue
