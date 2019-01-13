@@ -39,7 +39,11 @@ func (t *Task) FetchForGenre(genre string, offset int64) ([]tasks.Task, error) {
 			} else if streamchecker.CheckValidPlaylist(url) {
 				entries, err := playlists.GetEntryURLs(url)
 				if err == nil {
-					valid = append(valid, entries...)
+					for _, entry := range entries {
+						if streamchecker.CheckValidStream(entry) {
+							valid = append(valid, entry)
+						}
+					}
 				}
 			}
 		}
