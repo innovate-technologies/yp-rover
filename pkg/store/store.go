@@ -103,7 +103,7 @@ func (s *Store) AddSHOUTcastStation(station shoutcastcom.Station) error {
 		return err
 	}
 
-	_, err = s.db.Collection("sc_genres").InsertOne(context.Background(), station)
+	_, err = s.db.Collection("sc_stations").InsertOne(context.Background(), station)
 	return err
 }
 
