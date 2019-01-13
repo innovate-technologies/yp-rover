@@ -62,6 +62,7 @@ func (t *Task) FetchForGenre(genre string, offset int64) ([]tasks.Task, error) {
 
 	if len(stations) != 0 {
 		time.Sleep(5 * time.Second) // try not to fetch too fast
+		log.Printf("Need to fetch more stations for genre %s", genre)
 		return []tasks.Task{
 			tasks.Task{
 				Unit:     "tunein",
