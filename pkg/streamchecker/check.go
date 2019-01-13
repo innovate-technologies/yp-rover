@@ -1,6 +1,7 @@
 package streamchecker
 
 import (
+	"net/http"
 	"strings"
 
 	resty "gopkg.in/resty.v1"
@@ -15,8 +16,23 @@ func CheckValidStream(url string) bool {
 	if err != nil {
 		return false
 	}
-
 	content := resp.Header().Get("content-type")
+
+	if resp.StatusCode() == 400 {
+		client := &http.Client{}
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return false
+		}
+		res, err := client.Do(req)
+		if err != nil {
+			return false
+		}
+
+		content = res.Header.Get("content-type")
+
+		res.Body.Close()
+	}
 
 	if strings.Contains(content, "audio/mpeg") || strings.Contains(content, "audio/aacp") || strings.Contains(content, "audio/aac") || strings.Contains(content, "audio/ogg") || strings.Contains(content, "application/ogg") {
 		return true

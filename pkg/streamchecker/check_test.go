@@ -45,6 +45,18 @@ func TestCheckValidStream(t *testing.T) {
 			return res, nil
 		})
 
+	httpmock.RegisterResponder("HEAD", "http://icecastnohead.com/",
+		func(req *http.Request) (*http.Response, error) {
+			res := httpmock.NewStringResponse(http.StatusBadRequest, "")
+			return res, nil
+		})
+	httpmock.RegisterResponder("GET", "http://icecastnohead.com/",
+		func(req *http.Request) (*http.Response, error) {
+			res := httpmock.NewStringResponse(http.StatusOK, "")
+			res.Header.Set("Content-Type", "audio/ogg")
+			return res, nil
+		})
+
 	type args struct {
 		url string
 	}
@@ -64,6 +76,13 @@ func TestCheckValidStream(t *testing.T) {
 			name: "Icecast",
 			args: args{
 				url: "http://icecast.com/stream",
+			},
+			want: true,
+		},
+		{
+			name: "Icecast whithout HEAD support",
+			args: args{
+				url: "http://icecastnohead.com/",
 			},
 			want: true,
 		},
