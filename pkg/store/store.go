@@ -90,9 +90,6 @@ func (s *Store) AddSHOUTcastGenre(genre string) error {
 	if err != nil && err != mongo.ErrNoDocuments {
 		return err
 	}
-	if err == mongo.ErrNoDocuments {
-		return nil
-	}
 
 	_, err = s.db.Collection("sc_genres").InsertOne(context.Background(), shoutcastGenre{Name: genre})
 	return err
@@ -104,9 +101,6 @@ func (s *Store) AddSHOUTcastStation(station shoutcastcom.Station) error {
 	err := s.db.Collection("sc_stations").FindOne(context.Background(), bson.M{"shoutcastID": station.ID}).Decode(&res)
 	if err != nil && err != mongo.ErrNoDocuments {
 		return err
-	}
-	if err == mongo.ErrNoDocuments {
-		return nil
 	}
 
 	_, err = s.db.Collection("sc_genres").InsertOne(context.Background(), station)
