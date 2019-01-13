@@ -36,11 +36,11 @@ spec:
                 secretKeyRef:
                   name: yp-rover
                   key: YPROVER_MONGODB_URL
-            - name: YPROVER_MONGODB_DB
+            - name: YPROVER_MONGODB_DATABASE
               valueFrom:
                 secretKeyRef:
                   name: yp-rover
-                  key: YPROVER_MONGODB_DB
+                  key: YPROVER_MONGODB_DATABASE
           imagePullPolicy: {{ .Values.image.pullPolicy }}
       containers:
         - name: {{ .Chart.Name }}
