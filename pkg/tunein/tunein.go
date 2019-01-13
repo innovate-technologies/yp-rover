@@ -118,7 +118,7 @@ func (a *API) BrowseStations(guide string, offset int64) ([]Station, int64, erro
 			}
 			continue
 		}
-		time.Sleep(time.Second) // preventing a rate limit here
+		time.Sleep(2 * time.Second) // preventing a rate limit here
 		tuneResp, err := a.doRequest(entry.URL)
 		if err != nil {
 			continue
