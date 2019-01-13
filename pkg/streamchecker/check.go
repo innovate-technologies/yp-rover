@@ -1,7 +1,6 @@
 package streamchecker
 
 import (
-	"log"
 	"strings"
 
 	resty "gopkg.in/resty.v1"
@@ -18,7 +17,6 @@ func CheckValidStream(url string) bool {
 	}
 
 	content := resp.Header().Get("content-type")
-	log.Println(content)
 
 	if strings.Contains(content, "audio/mpeg") || strings.Contains(content, "audio/aacp") || strings.Contains(content, "audio/aac") || strings.Contains(content, "audio/ogg") || strings.Contains(content, "application/ogg") {
 		return true
@@ -38,10 +36,8 @@ func CheckValidPlaylist(url string) bool {
 	}
 
 	content := resp.Header().Get("content-type")
-	log.Println(content)
 
 	if strings.Contains(content, "audio/x-scpls") || strings.Contains(content, "audio/x-mpegurl") {
-		log.Println("OK")
 		return true
 	}
 
