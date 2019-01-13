@@ -15,7 +15,7 @@ import (
 // FetchForGenre fetches tations for a genre and dispatches a new job if needed
 func (t *Task) FetchForGenre(genre string, offset int64) ([]tasks.Task, error) {
 	log.Printf("Getting TuneIn stations for genre %s and offset %d\n", genre, offset)
-	api := tunein.NewClient()
+	api := tunein.NewClient(tunein.WithPartnerID(t.config.TuneInPartnerID))
 	stations, newOffset, err := api.BrowseStations(genre, offset)
 	log.Println("Getting TuneIn station list")
 	if err != nil {

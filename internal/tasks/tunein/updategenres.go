@@ -10,7 +10,7 @@ import (
 
 // UpdateGenres fetches and updates the genre list in the database
 func (t *Task) UpdateGenres() ([]tasks.Task, error) {
-	api := tunein.NewClient()
+	api := tunein.NewClient(tunein.WithPartnerID(t.config.TuneInPartnerID))
 	genres, err := api.GetGenreGuides()
 	if err != nil {
 		return nil, err
