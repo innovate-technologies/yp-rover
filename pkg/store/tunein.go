@@ -16,9 +16,11 @@ func (s *Store) AddTuneInGenre(genre tunein.Genre) error {
 	if err != nil && err != mongo.ErrNoDocuments {
 		return err
 	}
-
-	_, err = s.db.Collection("tunein_genres").InsertOne(context.Background(), genre)
-	return err
+	if err == mongo.ErrNoDocuments {
+		_, err = s.db.Collection("tunein_genres").InsertOne(context.Background(), genre)
+		return err
+	}
+	return nil
 }
 
 // AddTuneInStation adds a roved TuneIn station
@@ -28,7 +30,9 @@ func (s *Store) AddTuneInStation(station tunein.Station) error {
 	if err != nil && err != mongo.ErrNoDocuments {
 		return err
 	}
-
-	_, err = s.db.Collection("tunein_stations").InsertOne(context.Background(), station)
-	return err
+	if err == mongo.ErrNoDocuments {
+		_, err = s.db.Collection("tunein_stations").InsertOne(context.Background(), station)
+		return err
+	}
+	return nil
 }

@@ -113,8 +113,11 @@ func (s *Store) AddSHOUTcastGenre(genre string) error {
 		return err
 	}
 
-	_, err = s.db.Collection("sc_genres").InsertOne(context.Background(), shoutcastGenre{Name: genre})
-	return err
+	if err == mongo.ErrNoDocuments {
+		_, err = s.db.Collection("sc_genres").InsertOne(context.Background(), shoutcastGenre{Name: genre})
+		return err
+	}
+	return nil
 }
 
 // AddSHOUTcastStation adds a roved SHOUTcast.com station
@@ -124,9 +127,11 @@ func (s *Store) AddSHOUTcastStation(station shoutcastcom.Station) error {
 	if err != nil && err != mongo.ErrNoDocuments {
 		return err
 	}
-
-	_, err = s.db.Collection("sc_stations").InsertOne(context.Background(), station)
-	return err
+	if err == mongo.ErrNoDocuments {
+		_, err = s.db.Collection("sc_stations").InsertOne(context.Background(), station)
+		return err
+	}
+	return nil
 }
 
 // EnsureIndex will ensure the index model provided is on the given collection.
