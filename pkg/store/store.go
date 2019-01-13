@@ -40,6 +40,11 @@ func New(conf config.Config) (*Store, error) {
 	}, nil
 }
 
+// Close closes the connection to the server
+func (s *Store) Close() {
+	s.db.Client().Disconnect(context.Background())
+}
+
 // Migrate will make sure indexes are set
 func (s *Store) Migrate() {
 	opts := options.Index()

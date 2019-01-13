@@ -21,6 +21,7 @@ func (t *Task) UpdateGenres() ([]tasks.Task, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer db.Close()
 
 	nt := []tasks.Task{}
 	for _, genre := range genres {

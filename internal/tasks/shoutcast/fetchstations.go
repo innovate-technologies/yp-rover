@@ -18,6 +18,7 @@ func (t *Task) FetchForGenre(genre string, offset int64) ([]tasks.Task, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer db.Close()
 
 	log.Printf("Getting stations for genre %s with offset %d", genre, offset)
 	stations, err := api.GetByGenre(genre, "", "", fmt.Sprintf("%d,50", offset))

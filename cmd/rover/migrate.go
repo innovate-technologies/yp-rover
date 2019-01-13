@@ -21,6 +21,7 @@ func runMigrate(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
+	defer db.Close()
 	db.Migrate()
 
 	return nil
