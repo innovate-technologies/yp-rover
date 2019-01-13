@@ -26,7 +26,7 @@ func (s *Store) AddTuneInGenre(genre tunein.Genre) error {
 // AddTuneInStation adds a roved TuneIn station
 func (s *Store) AddTuneInStation(station tunein.Station) error {
 	var res tunein.Station
-	err := s.db.Collection("tunein_stations").FindOne(context.Background(), bson.M{"tuneInURL": station.TuneInURL}).Decode(&res)
+	err := s.db.Collection("tunein_stations").FindOne(context.Background(), bson.M{"name": station.Name}).Decode(&res)
 	if err != nil && err != mongo.ErrNoDocuments {
 		return err
 	}

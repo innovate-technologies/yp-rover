@@ -75,8 +75,8 @@ func (s *Store) Migrate() {
 	opts = options.Index()
 	opts.SetBackground(true)
 	opts.SetUnique(true)
-	opts.SetName("tunein_url")
-	err = s.EnsureIndex(context.Background(), s.db.Collection("tunein_stations"), []string{"tuneInURL"}, opts)
+	opts.SetName("tunein_name")
+	err = s.EnsureIndex(context.Background(), s.db.Collection("tunein_stations"), []string{"name"}, opts)
 	if err != nil {
 		log.Printf("Ensureindex error: %s", err)
 	}

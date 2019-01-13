@@ -124,6 +124,15 @@ func (a *API) BrowseStations(guide string, offset int64) ([]Station, int64, erro
 			continue
 		}
 
+		listedURLs := strings.Split(string(tuneResp.Body()), "\n")
+		urls := []string{}
+		for _, url := range listedURLs {
+			url = strings.Trim(url, " ")
+			if url != "" {
+				urls = append(urls, url)
+			}
+		}
+
 		stations = append(stations, Station{
 			Name:                 entry.Text,
 			MediaType:            entry.Formats,
@@ -133,7 +142,7 @@ func (a *API) BrowseStations(guide string, offset int64) ([]Station, int64, erro
 			Reliability:          entry.Reliability,
 			GenreID:              entry.GenreID,
 			BitRate:              entry.Bitrate,
-			TuneInURL:            string(tuneResp.Body()),
+			TuneInURLs:           urls,
 		})
 	}
 
