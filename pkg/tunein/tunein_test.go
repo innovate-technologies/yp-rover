@@ -80,7 +80,7 @@ func TestAPI_BrowseStations(t *testing.T) {
 					Reliability:          "93",
 					CurrentTrack:         "",
 					CurrentTrackImageURL: "",
-					TuneInURL:            "https://demo.radioca.st/test",
+					TuneInURLs:           []string{"https://demo.radioca.st/test"},
 				},
 				Station{
 					Name:                 "Radio Beverland (Antwerp)",
@@ -91,7 +91,7 @@ func TestAPI_BrowseStations(t *testing.T) {
 					Reliability:          "88",
 					CurrentTrack:         "",
 					CurrentTrackImageURL: "",
-					TuneInURL:            "https://demo.radioca.st/test",
+					TuneInURLs:           []string{"https://demo.radioca.st/test"},
 				},
 				Station{
 					Name:                 "Radio FG Vlaanderen (Antwerp)",
@@ -102,7 +102,7 @@ func TestAPI_BrowseStations(t *testing.T) {
 					Reliability:          "95",
 					CurrentTrack:         "",
 					CurrentTrackImageURL: "",
-					TuneInURL:            "https://demo.radioca.st/test",
+					TuneInURLs:           []string{"https://demo.radioca.st/test"},
 				},
 			},
 		},
