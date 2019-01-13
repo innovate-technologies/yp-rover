@@ -102,7 +102,7 @@ func handleTask(ch *amqp.Channel, q *amqp.Queue, task tasks.Task) {
 		followUpTasks, err = handler.HandleTask(task)
 		break
 	case "tunein":
-		handler := tunein.New()
+		handler := tunein.New(config)
 		followUpTasks, err = handler.HandleTask(task)
 		break
 	}
