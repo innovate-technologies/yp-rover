@@ -45,13 +45,19 @@ func (s *Store) Migrate() {
 	opts := options.Index()
 	opts.SetBackground(true)
 	opts.SetName("sc_genre")
-	s.EnsureIndex(context.Background(), s.db.Collection("sc_genres"), []string{"name"}, opts)
+	err := s.EnsureIndex(context.Background(), s.db.Collection("sc_genres"), []string{"name"}, opts)
+	if err != nil {
+		log.Printf("Ensureindex error: %s", err)
+	}
 
 	optsID := options.Index()
 	optsID.SetBackground(true)
 	optsID.SetUnique(true)
 	optsID.SetName("sc_id")
-	s.EnsureIndex(context.Background(), s.db.Collection("sc_stations"), []string{"shoutcastID"}, optsID)
+	err = s.EnsureIndex(context.Background(), s.db.Collection("sc_stations"), []string{"shoutcastID"}, optsID)
+	if err != nil {
+		log.Printf("Ensureindex error: %s", err)
+	}
 }
 
 // GetSHOUTcastGenres gets the roved SHOUTcast.com genres
@@ -111,9 +117,9 @@ func (s *Store) AddSHOUTcastStation(station shoutcastcom.Station) error {
 func (s *Store) EnsureIndex(ctx context.Context, c *mongo.Collection, keys []string, opts *options.IndexOptions) error {
 	idxs := c.Indexes()
 
-	ks := bsonx.Doc{}
+	ks := bson.M{}
 	for _, k := range keys {
-		ks.Append(k, bsonx.Int64(-1))
+		ks[k] = -1
 	}
 	idm := mongo.IndexModel{
 		Keys:    ks,
