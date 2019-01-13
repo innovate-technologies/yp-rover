@@ -45,9 +45,15 @@ func CheckValidStream(streamurl string) bool {
 // CheckValidPlaylist checks if URL serves a playlist file
 func CheckValidPlaylist(url string) bool {
 	resty.SetRedirectPolicy(resty.FlexibleRedirectPolicy(30)) // because radionomy
+	ctx, cancel := context.WithCancel(context.Background())
+	go func() {
+		time.Sleep(5 * time.Second)
+		cancel()
+	}()
 	r := resty.R()
 	r.Header.Set("User-Agent", "VLC/3.0.4 LibVLC/3.0.4")
-	resp, err := r.Head(url)
+	r.SetContext(ctx) // if it starts sending audio this is a good thing to have
+	resp, err := r.Get(url)
 	if err != nil {
 		return false
 	}
