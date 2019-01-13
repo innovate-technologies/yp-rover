@@ -4,16 +4,20 @@ import (
 	"errors"
 	"strconv"
 
+	"github.com/innovate-technologies/yp-rover/internal/config"
 	"github.com/innovate-technologies/yp-rover/internal/tasks"
 )
 
 // Task is the task handler for TuneIn
 type Task struct {
+	config config.Config
 }
 
 // New gives a new task hander
-func New() Task {
-	return Task{}
+func New(config config.Config) Task {
+	return Task{
+		config: config,
+	}
 }
 
 // HandleTask handles a given task

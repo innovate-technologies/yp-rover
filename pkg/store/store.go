@@ -55,11 +55,28 @@ func (s *Store) Migrate() {
 		log.Printf("Ensureindex error: %s", err)
 	}
 
-	optsID := options.Index()
-	optsID.SetBackground(true)
-	optsID.SetUnique(true)
-	optsID.SetName("sc_id")
-	err = s.EnsureIndex(context.Background(), s.db.Collection("sc_stations"), []string{"shoutcastID"}, optsID)
+	opts = options.Index()
+	opts.SetBackground(true)
+	opts.SetName("tunein_genre")
+	err = s.EnsureIndex(context.Background(), s.db.Collection("tunein_genres"), []string{"name"}, opts)
+	if err != nil {
+		log.Printf("Ensureindex error: %s", err)
+	}
+
+	opts = options.Index()
+	opts.SetBackground(true)
+	opts.SetUnique(true)
+	opts.SetName("sc_id")
+	err = s.EnsureIndex(context.Background(), s.db.Collection("sc_stations"), []string{"shoutcastID"}, opts)
+	if err != nil {
+		log.Printf("Ensureindex error: %s", err)
+	}
+
+	opts = options.Index()
+	opts.SetBackground(true)
+	opts.SetUnique(true)
+	opts.SetName("tunein_url")
+	err = s.EnsureIndex(context.Background(), s.db.Collection("tunein_stations"), []string{"tuneInURL"}, opts)
 	if err != nil {
 		log.Printf("Ensureindex error: %s", err)
 	}

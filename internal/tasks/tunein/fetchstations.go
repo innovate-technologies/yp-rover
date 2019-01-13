@@ -2,9 +2,11 @@ package tuneintasks
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/innovate-technologies/yp-rover/internal/tasks"
+	"github.com/innovate-technologies/yp-rover/pkg/store"
 	"github.com/innovate-technologies/yp-rover/pkg/streamchecker"
 	"github.com/innovate-technologies/yp-rover/pkg/tunein"
 )
@@ -17,13 +19,23 @@ func (t *Task) FetchForGenre(genre string, offset int64) ([]tasks.Task, error) {
 		return nil, err
 	}
 
+	db, err := store.New(t.config)
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+
 	//spew.Dump(stations)
 	for _, station := range stations {
 		if !streamchecker.CheckValidStream(station.TuneInURL) {
 			continue
 		}
 		time.Sleep(200 * time.Millisecond) // try not to fetch too fast
-		// TODO: add me to a database
+		log.Printf("Saving station %s", station.Name)
+		err := db.AddTuneInStation(station)
+		if err != nil {
+			log.Println(err)
+		}
 	}
 
 	if len(stations) != 0 {
