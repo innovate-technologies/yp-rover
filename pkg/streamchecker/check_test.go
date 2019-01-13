@@ -90,3 +90,87 @@ func TestCheckValidStream(t *testing.T) {
 		})
 	}
 }
+
+func TestCheckValidPlaylist(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	httpmock.RegisterResponder("HEAD", "http://listen.radionomy.com:80/Maartje",
+		func(req *http.Request) (*http.Response, error) {
+			res := httpmock.NewStringResponse(http.StatusPermanentRedirect, "")
+			res.Header.Set("Location", "http://streaming.radionomy.com/Maartje.pls")
+			return res, nil
+		})
+	httpmock.RegisterResponder("HEAD", "http://streaming.radionomy.com/Maartje.pls",
+		func(req *http.Request) (*http.Response, error) {
+			res := httpmock.NewStringResponse(http.StatusOK, "")
+			res.Header.Set("Content-Type", "audio/x-scpls")
+			return res, nil
+		})
+
+	httpmock.RegisterResponder("HEAD", "http://icecast.com/stream.m3u",
+		func(req *http.Request) (*http.Response, error) {
+			res := httpmock.NewStringResponse(http.StatusOK, "")
+			res.Header.Set("Content-Type", "audio/x-mpegurl")
+			return res, nil
+		})
+
+	httpmock.RegisterResponder("HEAD", "http://scserv.com/.pls",
+		func(req *http.Request) (*http.Response, error) {
+			res := httpmock.NewStringResponse(http.StatusOK, "")
+			res.Header.Set("Content-Type", "audio/x-scpls")
+			return res, nil
+		})
+
+	httpmock.RegisterResponder("HEAD", "http://pdfstream.com/;",
+		func(req *http.Request) (*http.Response, error) {
+			res := httpmock.NewStringResponse(http.StatusOK, "")
+			res.Header.Set("Content-Type", "application/pdf")
+			return res, nil
+		})
+
+	type args struct {
+		url string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			name: "Radionomy with redirect",
+			args: args{
+				url: "http://listen.radionomy.com:80/Maartje",
+			},
+			want: true,
+		},
+		{
+			name: "m3u",
+			args: args{
+				url: "http://icecast.com/stream.m3u",
+			},
+			want: true,
+		},
+		{
+			name: "pls",
+			args: args{
+				url: "http://scserv.com/.pls",
+			},
+			want: true,
+		},
+		{
+			name: "PDF FM",
+			args: args{
+				url: "http://pdfstream.com/;",
+			},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := CheckValidPlaylist(tt.args.url); got != tt.want {
+				t.Errorf("CheckValidPlaylist() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
