@@ -114,34 +114,34 @@ func TestCheckValidPlaylist(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("HEAD", "http://listen.radionomy.com:80/Maartje",
+	httpmock.RegisterResponder("GET", "http://listen.radionomy.com:80/Maartje",
 		func(req *http.Request) (*http.Response, error) {
 			res := httpmock.NewStringResponse(http.StatusPermanentRedirect, "")
 			res.Header.Set("Location", "http://streaming.radionomy.com/Maartje.pls")
 			return res, nil
 		})
-	httpmock.RegisterResponder("HEAD", "http://streaming.radionomy.com/Maartje.pls",
+	httpmock.RegisterResponder("GET", "http://streaming.radionomy.com/Maartje.pls",
 		func(req *http.Request) (*http.Response, error) {
 			res := httpmock.NewStringResponse(http.StatusOK, "")
 			res.Header.Set("Content-Type", "audio/x-scpls")
 			return res, nil
 		})
 
-	httpmock.RegisterResponder("HEAD", "http://icecast.com/stream.m3u",
+	httpmock.RegisterResponder("GET", "http://icecast.com/stream.m3u",
 		func(req *http.Request) (*http.Response, error) {
 			res := httpmock.NewStringResponse(http.StatusOK, "")
 			res.Header.Set("Content-Type", "audio/x-mpegurl")
 			return res, nil
 		})
 
-	httpmock.RegisterResponder("HEAD", "http://scserv.com/.pls",
+	httpmock.RegisterResponder("GET", "http://scserv.com/.pls",
 		func(req *http.Request) (*http.Response, error) {
 			res := httpmock.NewStringResponse(http.StatusOK, "")
 			res.Header.Set("Content-Type", "audio/x-scpls")
 			return res, nil
 		})
 
-	httpmock.RegisterResponder("HEAD", "http://pdfstream.com/;",
+	httpmock.RegisterResponder("GET", "http://pdfstream.com/;",
 		func(req *http.Request) (*http.Response, error) {
 			res := httpmock.NewStringResponse(http.StatusOK, "")
 			res.Header.Set("Content-Type", "application/pdf")
