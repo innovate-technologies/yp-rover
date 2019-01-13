@@ -26,6 +26,7 @@ func CheckValidStream(streamurl string) bool {
 			time.Sleep(2 * time.Second)
 			cancel()
 		}()
+		resty.SetRedirectPolicy(resty.FlexibleRedirectPolicy(30)) // because radionomy
 		r := resty.R()
 		r.Header.Set("User-Agent", "VLC/3.0.4 LibVLC/3.0.4")
 		r.SetContext(ctx)
@@ -60,7 +61,7 @@ func CheckValidPlaylist(url string) bool {
 
 	content := resp.Header().Get("content-type")
 
-	if strings.Contains(content, "audio/x-scpls") || strings.Contains(content, "audio/x-mpegurl") {
+	if strings.Contains(content, "audio/x-scpls") || strings.Contains(content, "application/pls") || strings.Contains(content, "audio/x-mpegurl") {
 		return true
 	}
 

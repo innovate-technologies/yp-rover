@@ -36,7 +36,7 @@ func GetEntryURLs(url string) ([]string, error) {
 		return out, nil
 	}
 
-	if strings.Contains(content, "audio/x-scpls") {
+	if strings.Contains(content, "audio/x-scpls") || strings.Contains(content, "application/pls") {
 		lines := strings.Split(string(resp.Body()), "\n")
 		out := []string{}
 
