@@ -13,6 +13,7 @@ import (
 
 // FetchForGenre fetches tations for a genre and dispatches a new job if needed
 func (t *Task) FetchForGenre(genre string, offset int64) ([]tasks.Task, error) {
+	log.Printf("Getting TuneIn stations for genre %s and offset %d\n", genre, offset)
 	api := tunein.NewClient()
 	stations, newOffset, err := api.BrowseStations(genre, offset)
 	if err != nil {
@@ -27,10 +28,10 @@ func (t *Task) FetchForGenre(genre string, offset int64) ([]tasks.Task, error) {
 
 	//spew.Dump(stations)
 	for _, station := range stations {
+		log.Printf("Checking %s \n", station.Name)
 		if !streamchecker.CheckValidStream(station.TuneInURL) {
 			continue
 		}
-		time.Sleep(200 * time.Millisecond) // try not to fetch too fast
 		log.Printf("Saving station %s", station.Name)
 		err := db.AddTuneInStation(station)
 		if err != nil {

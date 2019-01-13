@@ -2,6 +2,7 @@ package tunein
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -44,6 +45,7 @@ func (a *API) doRequest(endpoint string, params ...map[string]string) (*resty.Re
 	resp, err := r.Get(fmt.Sprintf("https://opml.radiotime.com/%s", endpoint))
 
 	if resp.StatusCode() == 403 { // we have been rate limited
+		log.Println("Hit rate limit... sleeping")
 		time.Sleep(waitTime)
 		return a.doRequest(endpoint)
 	}
