@@ -33,7 +33,9 @@ func CheckValidStream(streamurl string) bool {
 		r = r.SetOutput("/dev/null")
 		resp, _ := r.Get(streamurl)
 		content = resp.Header().Get("content-type")
-		resp.RawBody().Close()
+		if resp.RawBody() != nil {
+			resp.RawBody().Close()
+		}
 	}
 
 	if strings.Contains(content, "audio/mpeg") || strings.Contains(content, "audio/aacp") || strings.Contains(content, "audio/aac") || strings.Contains(content, "audio/ogg") || strings.Contains(content, "application/ogg") {
