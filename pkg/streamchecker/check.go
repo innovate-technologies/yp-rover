@@ -10,8 +10,14 @@ import (
 
 // CheckValidStream will call a stream URL and check if a radio stream is present
 func CheckValidStream(streamurl string) bool {
+	ctx, cancel := context.WithCancel(context.Background())
+	go func() {
+		time.Sleep(2 * time.Second)
+		cancel()
+	}()
 	resty.SetRedirectPolicy(resty.FlexibleRedirectPolicy(30)) // because radionomy
 	r := resty.R()
+	r = r.SetContext(ctx)
 	r.Header.Set("User-Agent", "VLC/3.0.4 LibVLC/3.0.4")
 	resp, err := r.Head(streamurl)
 
@@ -21,15 +27,15 @@ func CheckValidStream(streamurl string) bool {
 	}
 
 	if resp.StatusCode() == 400 || content == "" {
-		ctx, cancel := context.WithCancel(context.Background())
+		ctxGET, cancelGET := context.WithCancel(context.Background())
 		go func() {
 			time.Sleep(2 * time.Second)
-			cancel()
+			cancelGET()
 		}()
 		resty.SetRedirectPolicy(resty.FlexibleRedirectPolicy(30)) // because radionomy
 		r := resty.R()
 		r.Header.Set("User-Agent", "VLC/3.0.4 LibVLC/3.0.4")
-		r.SetContext(ctx)
+		r = r.SetContext(ctxGET)
 		r = r.SetOutput("/dev/null")
 		resp, _ := r.Get(streamurl)
 		content = resp.Header().Get("content-type")
