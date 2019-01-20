@@ -36,7 +36,6 @@ func CheckValidStream(streamurl string) bool {
 		r := resty.R()
 		r.Header.Set("User-Agent", "VLC/3.0.4 LibVLC/3.0.4")
 		r = r.SetContext(ctxGET)
-		r = r.SetOutput("/dev/null")
 		resp, _ := r.Get(streamurl)
 		content = resp.Header().Get("content-type")
 		if resp.RawBody() != nil {
